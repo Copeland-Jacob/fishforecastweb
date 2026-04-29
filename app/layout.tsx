@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <title>Fish Forecast</title>
-      <body className=" overflow-hidden">
+      <body className=" ">
         <header className="w-screen h-20 bg-[#051420] flex flex-row border-b-[1.5px] border-[#162A39]">
           <div className="flex flex-row mt-3 ml-4">
             <Fish className="w-7 h-7 text-[#15EEED] mt-3"/>
@@ -38,7 +38,7 @@ export default function RootLayout({
 
           <div id="searchBar" className="w-100 h-12 rounded-2xl bg-[#0C1C2B] my-auto ml-125 flex flex-row">
             <Search className="w-6 h-6 text-[#8A96A3] mt-3 ml-5" />
-            <textarea placeholder="Search locations..." className="resize-none focus:outline-none my-3 ml-3 text-[#8A96A3] w-90 text-gray-400"></textarea>
+            <textarea placeholder="Search locations..." className="resize-none focus:outline-none my-3 ml-3 text-gray-400 w-90"></textarea>
           </div>
 
           <Bell className="w-8 h-8 text-[#838D97] mt-6 ml-15"/>
