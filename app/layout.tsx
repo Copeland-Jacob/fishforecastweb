@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { CircleUserRound, Fish, ChevronDown, Search, LayoutGrid, Map, Bot, Users, MessageCircle, Bell } from "lucide-react";
+import SearchBar from "@/components/SearchBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +37,7 @@ export default function RootLayout({
             <p className="font-bold text-2xl  mt-3 text-white">Forecast</p>
           </div>
 
-          <div id="searchBar" className="w-100 h-12 rounded-2xl bg-[#0C1C2B] my-auto ml-125 flex flex-row">
-            <Search className="w-6 h-6 text-[#8A96A3] mt-3 ml-5" />
-            <textarea placeholder="Search locations..." className="resize-none focus:outline-none my-3 ml-3 text-gray-400 w-90"></textarea>
-          </div>
+          <SearchBar />
 
           <Bell className="w-8 h-8 text-[#838D97] mt-6 ml-15"/>
 

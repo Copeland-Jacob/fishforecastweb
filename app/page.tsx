@@ -1,7 +1,31 @@
-import Image from "next/image";
+"use client"
+import { useLocationStore } from "@/store/locationStore";
 import { Fish, Star, CloudSun, Wind, Gauge, Cloud, Thermometer, CirclePlus, Crown, Waves, Check} from "lucide-react";
+import { useEffect, useState } from "react";
+import LoadingWeather from "@/components/loadingWeather";
 
 export default function Home() {
+
+  const [weather, setWeather] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  const location = useLocationStore((state) => state.location)
+
+  useEffect(() => {
+    if(!location) return;
+    setLoading(true)
+    const getWeather = async () => {
+      const res = await fetch(`/api/weather?lat=${location.lat}&lon=${location.lon}`);
+
+      const data = await res.json();
+      setWeather(data.weather.current);
+    }
+    getWeather();
+    setLoading(false)
+  }, [location])
+
+
+
   return (
     <main className="w-[calc(100vw-55px)] h-[calc(100vw-20px)] bg-[#0C1F2D] flex flex-row">
       <div className="flex flex-col gap-2">
@@ -10,7 +34,7 @@ export default function Home() {
           {/* Main Score */}
 
           <div className="w-1/2 h-90">
-            <p className="mt-2 ml-2 font-bold">Grinnell, Iowa</p>
+            <p className="mt-2 ml-2 font-bold">{location ? location.name : "Select a Location"}</p>
             <div className="relative ml-10">
               <img src="./images/ring.png" className="w-75 drop-shadow-[0_0_12px_rgba(21,238,237,0.35)]"/>
               <Fish className="absolute top-12 ml-32 w-12 h-12 text-[#15EEED] shadow-[0_10px_30px_rgba(0,0,0,.28)]"/>
@@ -122,39 +146,50 @@ export default function Home() {
         </div>
       </div>
 
+
+      <div className="flex flex-col gap-2">
       {/* Weather */}
 
-      <div className="flex flex-col gap-2"> 
+
+
+      {loading && (<LoadingWeather />)}
+
+      {weather && (
         <div className="w-103 h-60 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
-          <p className="mt-3 ml-3 font-bold">Current Conditions</p>
-          <div className="flex flex-row">
-            <img src="/images/cloud-sun.png" className="w-25 h-25 ml-12 mt-3" />
+              <p className="mt-3 ml-3 font-bold">Current Conditions</p>
+              <div className="flex flex-row">
+                <img src="/images/cloud-sun.png" className="w-25 h-25 ml-12 mt-3" />
 
-            <div className="w-px h-25 bg-gray-600 mt-2 mx-auto"/>
+                <div className="w-px h-25 bg-gray-600 mt-2 mx-auto"/>
 
-            <div className="flex flex-col mr-10">
-              <p className="text-[50px] mt-2 mr-5 ml-3">60<span className="text-xl">°F</span></p>
-              <p className="text-sm text-gray-400">Partly Cloudy</p>
-            </div>
-          </div>
+                <div className="flex flex-col mr-10">
+                  <p className="text-[50px] mt-2 mr-5 ml-3">{weather.temp_f}<span className="text-xl">°F</span></p>
+                  <p className="text-sm text-gray-400">Partly Cloudy</p>
+                </div>
+              </div>
 
-          <div className="flex flex-row gap-5 mx-15 mt-5">
-            <div>
-              <p>Feels Like</p>
-              <p>58°F</p>
-            </div>
-            <div className="w-px h-15 bg-gray-600"/>
-            <div>
-              <p>Humidity</p>
-              <p>64%</p>
-            </div>
-            <div className="w-px h-15 bg-gray-600"/>
-            <div>
-              <p>Wind</p>
-              <p>12 mph S</p>
-            </div>
-          </div>
+              <div className="flex flex-row gap-5 mx-15 mt-5">
+                <div>
+                  <p>Feels Like</p>
+                  <p>{Math.round(weather.feelslike_f)}°F</p>
+                </div>
+                <div className="w-px h-15 bg-gray-600"/>
+                <div>
+                  <p>Humidity</p>
+                  <p>{Math.round(weather.humidity)}%</p>
+                </div>
+                <div className="w-px h-15 bg-gray-600"/>
+                <div>
+                  <p>Wind</p>
+                  <p>{weather.wind_mph} mph</p>
+                </div>
+              </div>
+        
         </div>
+      )}
+
+      
+            
 
         {/* Best Times */}
 
