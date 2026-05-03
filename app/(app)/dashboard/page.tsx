@@ -16,9 +16,6 @@ import {
 import { useEffect, useState } from "react";
 import LoadingWeather from "@/components/loadingWeather";
 
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-
 export default function Dashboard() {
   const [rating, setRating] = useState<any>(null);
   const [weather, setWeather] = useState<any>(null);
@@ -83,11 +80,11 @@ export default function Dashboard() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <Fish className="absolute top-12 w-12 h-12 text-[#15EEED] shadow-[0_10px_30px_rgba(0,0,0,.28)]" />
                 {score ? (
-                  <p className="a text-[90px] font-semibold drop-shadow-[0_4px_12px_rgba(0,0,0,.55)]">
+                  <p className=" text-[90px] font-semibold drop-shadow-[0_4px_12px_rgba(0,0,0,.55)]">
                     {score}
                   </p>
                 ) : (
-                  <p className="absolute top-20 text-[90px] font-semibold ml-22">
+                  <p className="absolute top-20 text-[90px] font-semibold">
                     NA
                   </p>
                 )}

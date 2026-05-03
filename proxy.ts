@@ -1,6 +1,23 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+// middleware.ts
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+// Define which routes are public (sign-in, sign-up, etc.)
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
+
+export default clerkMiddleware(async (auth, request) => {
+  const { userId } = await auth();
+
+  // 1. If user is signed in and tries to access a public route (like /sign-in)
+  // redirect them to the dashboard immediately.
+  if (userId && isPublicRoute(request)) {
+    return Response.redirect(new URL("/dashboard", request.url));
+  }
+
+  // 2. If user is NOT signed in and tries to access a protected route
+  if (!userId && !isPublicRoute(request)) {
+    return (await auth()).redirectToSignIn();
+  }
+});
 
 export const config = {
   matcher: [

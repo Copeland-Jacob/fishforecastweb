@@ -13,11 +13,16 @@ import {
   Users,
   MessageCircle,
   Bell,
+  Settings,
+  LogOut,
+  Crown,
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
+import { SignOutButton, useClerk } from "@clerk/nextjs";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const [userModal, userModalOpen] = useState(false);
+  const { openUserProfile } = useClerk();
 
   return (
     <div>
@@ -103,13 +108,47 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       </div>
 
       {userModal && (
-        <div className="w-50 h-60 bg-[#051420] absolute right-5 top-20 rounded-b-lg">
-          <div className="ml-15 flex flex-col gap-3 mt-3">
-            <p className="font-bold text-white text-lg">Settings</p>
-            <p className="font-bold text-white text-lg">FAQ</p>
-            <p className="font-bold text-white text-lg">About</p>
-            <p className="font-bold text-orange-400 text-lg">Upgrade</p>
-            <p className="font-bold text-red-500 text-lg">Sign Out</p>
+        <div className="w-64 bg-[#102738] absolute right-0 top-20 rounded-xl border border-[#162A39] shadow-2xl overflow-hidden z-50">
+          {/* Header Section */}
+          <div className="p-4 border-b border-[#162A39] bg-[#0C1F2D]/50">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+              Account
+            </p>
+          </div>
+
+          <div className="p-2 flex flex-col gap-1">
+            {/* Manage Account Button */}
+            <button
+              onClick={() => openUserProfile()}
+              className="flex items-center gap-3 w-full px-3 py-2 text-gray-300 hover:text-white hover:bg-[#162A39] rounded-lg transition-all group"
+            >
+              <Settings className="w-5 h-5 text-[#15EEED] group-hover:rotate-45 transition-transform" />
+              <span className="text-sm font-medium">Manage Account</span>
+            </button>
+
+            {/* Upgrade Button - Highlighted */}
+            <button className="flex items-center gap-3 w-full px-3 py-2 text-orange-400 hover:bg-orange-400/10 rounded-lg transition-all group">
+              <Crown className="w-5 h-5 fill-orange-400" />
+              <span className="text-sm font-bold">Upgrade to Pro</span>
+            </button>
+          </div>
+
+          <div className="p-2 border-t border-[#162A39] flex flex-col gap-1">
+            <p className="px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+              Support
+            </p>
+
+            <button className="flex items-center gap-3 w-full px-3 py-2 text-gray-300 hover:text-white hover:bg-[#162A39] rounded-lg transition-all">
+              <span className="text-sm">About & Legal</span>
+            </button>
+
+            {/* Sign Out - Integrated into the list style */}
+            <SignOutButton>
+              <button className="flex items-center gap-3 w-full px-3 py-2 mt-2 text-red-400 hover:bg-red-400/10 rounded-lg transition-all">
+                <LogOut className="w-5 h-5" />
+                <span className="text-sm font-bold">Sign Out</span>
+              </button>
+            </SignOutButton>
           </div>
         </div>
       )}
