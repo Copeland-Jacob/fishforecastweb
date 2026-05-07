@@ -15,6 +15,9 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import LoadingWeather from "@/components/loadingWeather";
+import LocationCard from "@/components/LocationCard";
+import LocationBar from "@/components/LocationBar";
+import ScoreGraph from "@/components/ScoreGraph";
 
 export default function Dashboard() {
   const [rating, setRating] = useState<any>(null);
@@ -26,6 +29,7 @@ export default function Dashboard() {
   const [tempRating, setTempRating] = useState<any>(null);
   const [pressureRating, setPressureRating] = useState<any>(null);
   const [cloudRating, setCloudRating] = useState<any>(null);
+  const [weatherRating, setWeatherRating] = useState<any>(null);
 
   const location = useLocationStore((state) => state.location);
 
@@ -49,13 +53,35 @@ export default function Dashboard() {
 
       const data = await res.json();
 
+      console.log(data);
+
       setScore(data.score);
 
       if (data.score >= 0 && data.score < 20) setRating(1);
       if (data.score >= 20 && data.score < 40) setRating(2);
-      if (data.score >= 40 && data.score < 60) setRating(3);
-      if (data.score >= 60 && data.score < 80) setRating(4);
-      if (data.score >= 80) setRating(5);
+      if (data.score >= 40 && data.score <= 60) setRating(3);
+      if (data.score > 60 && data.score < 90) setRating(4);
+      if (data.score >= 90) setRating(5);
+
+      if (data.weatherScore === 3) setWeatherRating(3);
+      if (data.weatherScore === 2) setWeatherRating(2);
+      if (data.weatherScore === 1) setWeatherRating(1);
+
+      if (data.tempScore === 3) setTempRating(3);
+      if (data.tempScore === 2) setTempRating(2);
+      if (data.tempScore === 1) setTempRating(1);
+
+      if (data.windScore === 3) setWindRating(3);
+      if (data.windScore === 2) setWindRating(2);
+      if (data.windScore === 1) setWindRating(1);
+
+      if (data.pressureScore === 3) setPressureRating(3);
+      if (data.pressureScore === 2) setPressureRating(2);
+      if (data.pressureScore === 1) setPressureRating(1);
+
+      if (data.cloudScore === 3) setCloudRating(3);
+      if (data.cloudScore === 2) setCloudRating(2);
+      if (data.cloudScore === 1) setCloudRating(1);
     };
     getScore();
 
@@ -68,137 +94,143 @@ export default function Dashboard() {
         <div className="flex flex-row w-200 h-90 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
           {/* Main Score */}
 
-          <div className="w-1/2 h-90 flex flex-col items-center">
-            <p className="mt-2 font-bold">
-              {location ? location.name : "Select a Location"}
+          <div className="w-1/2 h-90 ">
+            <p className="mt-2 font-bold ml-3">
+              {location ? location.city : "Select a Location"}
             </p>
-            <div className="relative w-75 h-75 justify-center">
-              <img
-                src="./images/ring.png"
-                className="w-full  drop-shadow-[0_0_12px_rgba(21,238,237,0.35)]"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Fish className="absolute top-12 w-12 h-12 text-[#15EEED] shadow-[0_10px_30px_rgba(0,0,0,.28)]" />
-                {score ? (
-                  <p className=" text-[90px] font-semibold drop-shadow-[0_4px_12px_rgba(0,0,0,.55)]">
-                    {score}
-                  </p>
-                ) : (
-                  <p className="absolute top-20 text-[90px] font-semibold">
-                    NA
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-col items-center mt-2">
-                {rating == 1 && (
-                  <>
-                    <p className="absolute top-48 text-[30px] text-red-400 font-bold">
-                      Poor
+            <div className="flex flex-col items-center">
+              <div className="relative w-75 h-75 justify-center">
+                <img
+                  src="./images/ring.png"
+                  className="w-full  drop-shadow-[0_0_12px_rgba(21,238,237,0.35)]"
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Fish className="absolute top-12 w-12 h-12 text-[#15EEED] shadow-[0_10px_30px_rgba(0,0,0,.28)]" />
+                  {score ? (
+                    <p className=" text-[90px] font-semibold drop-shadow-[0_4px_12px_rgba(0,0,0,.55)]">
+                      {score}
                     </p>
-                    <div className="flex flex-row gap-2">
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                    </div>
-
-                    <div className="flex flex-col items-center w-full">
-                      <p className="mt-1  text-xl text-gray-300">
-                        Fish are not very active
-                      </p>
-                      <p className=" text-gray-400">Bad time to catch fish</p>
-                    </div>
-                  </>
-                )}
-                {rating == 2 && (
-                  <>
-                    <p className="absolute top-48 text-[30px] text-amber-400 font-bold">
-                      Rough
+                  ) : (
+                    <p className="absolute top-20 text-[90px] font-semibold">
+                      NA
                     </p>
-                    <div className="flex flex-row gap-2">
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col items-center mt-2">
+                  {rating == 1 && (
+                    <>
+                      <p className="absolute top-48 text-[30px] text-red-400 font-bold">
+                        Poor
+                      </p>
+                      <div className="flex flex-row gap-2">
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                      </div>
 
-                    <div className="flex flex-col items-center w-full">
-                      <p className="mt-1  text-xl text-gray-300">
-                        Fish are somewhat active
+                      <div className="flex flex-col items-center w-full">
+                        <p className="mt-1  text-xl text-gray-300">
+                          Fish are not very active
+                        </p>
+                        <p className=" text-gray-400">Bad time to catch fish</p>
+                      </div>
+                    </>
+                  )}
+                  {rating == 2 && (
+                    <>
+                      <p className="absolute top-48 text-[30px] text-amber-400 font-bold">
+                        Rough
                       </p>
-                      <p className=" text-gray-400">Rough time to catch fish</p>
-                    </div>
-                  </>
-                )}
-                {rating == 3 && (
-                  <>
-                    <p className="absolute top-48 text-[30px] text-[#d1ff2b] font-bold">
-                      Decent
-                    </p>
-                    <div className="flex flex-row gap-2">
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                    </div>
+                      <div className="flex flex-row gap-2">
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                      </div>
 
-                    <div className="flex flex-col items-center w-full">
-                      <p className="mt-1  text-xl text-gray-300">
-                        Fish are moderately active
+                      <div className="flex flex-col items-center w-full">
+                        <p className="mt-1  text-xl text-gray-300">
+                          Fish are somewhat active
+                        </p>
+                        <p className=" text-gray-400">
+                          Rough time to catch fish
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  {rating == 3 && (
+                    <>
+                      <p className="absolute top-48 text-[30px] text-[#d1ff2b] font-bold">
+                        Decent
                       </p>
-                      <p className=" text-gray-400">
-                        Decent time to catch fish
-                      </p>
-                    </div>
-                  </>
-                )}
-                {rating == 4 && (
-                  <>
-                    <p className="absolute top-48 text-[30px] text-green-400 font-bold">
-                      Good
-                    </p>
-                    <div className="flex flex-row gap-2 ">
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
-                    </div>
+                      <div className="flex flex-row gap-2">
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                      </div>
 
-                    <div className="flex flex-col items-center w-full">
-                      <p className="mt-1  text-xl text-gray-300">
-                        Fish are pretty active
+                      <div className="flex flex-col items-center w-full">
+                        <p className="mt-1  text-xl text-gray-300">
+                          Fish are moderately active
+                        </p>
+                        <p className=" text-gray-400">
+                          Decent time to catch fish
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  {rating == 4 && (
+                    <>
+                      <p className="absolute top-48 text-[30px] text-green-400 font-bold">
+                        Good
                       </p>
-                      <p className=" text-gray-400">Good time to catch fish</p>
-                    </div>
-                  </>
-                )}
-                {rating == 5 && (
-                  <>
-                    <p className="absolute top-48 text-[28px] text-[#05daff] font-bold">
-                      Excellent
-                    </p>
-                    <div className="flex flex-row gap-2">
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                      <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
-                    </div>
+                      <div className="flex flex-row gap-2 ">
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-gray-500 text-gray-600" />
+                      </div>
 
-                    <div className="flex flex-col items-center w-full">
-                      <p className="mt-1  text-xl text-gray-300">
-                        Fish are very active
+                      <div className="flex flex-col items-center w-full">
+                        <p className="mt-1  text-xl text-gray-300">
+                          Fish are pretty active
+                        </p>
+                        <p className=" text-gray-400">
+                          Good time to catch fish
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  {rating == 5 && (
+                    <>
+                      <p className="absolute top-48 text-[28px] text-[#05daff] font-bold">
+                        Excellent
                       </p>
-                      <p className=" text-gray-400">
-                        Excellent time to catch fish
-                      </p>
-                    </div>
-                  </>
-                )}
+                      <div className="flex flex-row gap-2">
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                        <Star className="w-7 h-7 fill-yellow-500 text-yellow-600" />
+                      </div>
+
+                      <div className="flex flex-col items-center w-full">
+                        <p className="mt-1  text-xl text-gray-300">
+                          Fish are very active
+                        </p>
+                        <p className=" text-gray-400">
+                          Excellent time to catch fish
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -215,7 +247,15 @@ export default function Dashboard() {
                 <p className="text-lg">Weather</p>
               </div>
 
-              <p className="text-lg text-green-400">Good</p>
+              {weatherRating === 3 && (
+                <p className="text-lg text-green-400">Good</p>
+              )}
+              {weatherRating === 2 && (
+                <p className="text-lg text-yellow-400">Decent</p>
+              )}
+              {weatherRating === 1 && (
+                <p className="text-lg text-red-400">Poor</p>
+              )}
             </div>
 
             <div className="h-px w-4/5 bg-gray-600 my-2" />
@@ -237,7 +277,13 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <p className="text-lg text-green-400">Good</p>
+              {windRating === 3 && (
+                <p className="text-lg text-green-400">Good</p>
+              )}
+              {windRating === 2 && (
+                <p className="text-lg text-yellow-400">Decent</p>
+              )}
+              {windRating === 1 && <p className="text-lg text-red-400">Poor</p>}
             </div>
 
             <div className="h-px w-4/5 bg-gray-600 my-2" />
@@ -259,7 +305,15 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <p className="text-lg text-green-400">Good</p>
+              {pressureRating === 3 && (
+                <p className="text-lg text-green-400">Good</p>
+              )}
+              {pressureRating === 2 && (
+                <p className="text-lg text-yellow-400">Decent</p>
+              )}
+              {pressureRating === 1 && (
+                <p className="text-lg text-red-400">Poor</p>
+              )}
             </div>
 
             <div className="h-px w-4/5 bg-gray-600 my-2" />
@@ -279,7 +333,15 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <p className="text-lg text-green-400">Good</p>
+              {cloudRating === 3 && (
+                <p className="text-lg text-green-400">Good</p>
+              )}
+              {cloudRating === 2 && (
+                <p className="text-lg text-yellow-400">Decent</p>
+              )}
+              {cloudRating === 1 && (
+                <p className="text-lg text-red-400">Poor</p>
+              )}
             </div>
 
             <div className="h-px w-4/5 bg-gray-600 my-2" />
@@ -301,54 +363,26 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <p className="text-lg text-green-400">Good</p>
+              {tempRating === 3 && (
+                <p className="text-lg text-green-400">Good</p>
+              )}
+              {tempRating === 2 && (
+                <p className="text-lg text-yellow-400">Decent</p>
+              )}
+              {tempRating === 1 && <p className="text-lg text-red-400">Poor</p>}
             </div>
           </div>
         </div>
 
         {/* Score Graph */}
 
-        <div className="w-200 h-50 bg-[#102738] rounded-lg ml-3 border-2 border-[#162A39]">
-          <p className="text-center mt-20">Imagine a graph here</p>
+        <div className="w-200 h-50 bg-[#102738] rounded-lg border-2 border-[#162A39]">
+          <ScoreGraph />
         </div>
 
         {/* Locations */}
 
-        <div className="w-200 h-17 bg-[#102738] rounded-lg ml-3 border-2 border-[#162A39] flex flex-row gap-.5">
-          <div className="w-1/4 h-15 bg-[#284B5A] mt-px ml-1 rounded-xl relative">
-            <p className="mt-2 ml-1">Grinnell, Iowa</p>
-            <p className="ml-1 text-sm text-gray-400">Current Location</p>
-
-            <p className="text-green-400 text-2xl font-bold absolute top-4 right-3">
-              60
-            </p>
-          </div>
-
-          <div className="w-1/4 h-15 bg-[#284B5A] mt-px ml-1 rounded-xl relative">
-            <p className="mt-2 ml-1">Grinnell, Iowa</p>
-            <p className="ml-1 text-sm text-gray-400">Current Location</p>
-
-            <p className="text-green-400 text-2xl font-bold absolute top-4 right-3">
-              60
-            </p>
-          </div>
-
-          <div className="w-1/4 h-15 bg-[#284B5A] mt-px ml-1 rounded-xl relative">
-            <p className="mt-2 ml-1">Grinnell, Iowa</p>
-            <p className="ml-1 text-sm text-gray-400">Current Location</p>
-
-            <p className="text-green-400 text-2xl font-bold absolute top-4 right-3">
-              60
-            </p>
-          </div>
-
-          <div className="w-1/4 h-15 bg-[#284B5A] mt-px ml-1 rounded-xl relative">
-            <p className="mt-2 ml-1">Add Location</p>
-            <p className="ml-1 text-sm text-gray-400">Track another Spot</p>
-
-            <CirclePlus className="text-gray-400 absolute top-5 right-3" />
-          </div>
-        </div>
+        <LocationBar />
       </div>
 
       <div className="flex flex-col gap-2">

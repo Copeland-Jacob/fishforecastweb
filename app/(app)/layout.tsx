@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   CircleUserRound,
@@ -19,36 +19,62 @@ import {
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
 import { SignOutButton, useClerk } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const [userModal, userModalOpen] = useState(false);
   const { openUserProfile } = useClerk();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await fetch("/api/getUser");
+
+      const data = await res.json();
+
+      setUser(data);
+    };
+    getUser();
+  }, []);
 
   return (
     <div>
-      <header className="w-screen h-20 bg-[#051420] flex flex-row border-b-[1.5px] border-[#162A39]">
-        <div className="flex flex-row mt-3 ml-4">
-          <Fish className="w-7 h-7 text-[#15EEED] mt-3" />
-          <p className="font-bold text-2xl ml-2 mt-3 text-[#15EEED]">Fish</p>
-          <p className="font-bold text-2xl  mt-3 text-white">Forecast</p>
+      <header className="w-full h-20 bg-[#051420] flex items-center border-b-[1.5px] border-[#162A39] px-4">
+        {/* LEFT - Logo */}
+        <div className="flex items-center gap-2 shrink-0">
+          <Fish className="w-7 h-7 text-[#15EEED]" />
+          <p className="font-bold text-2xl text-[#15EEED]">Fish</p>
+          <p className="font-bold text-2xl text-white">Forecast</p>
         </div>
 
-        <SearchBar />
-
-        <Bell className="w-8 h-8 text-[#838D97] mt-6 ml-15" />
-
-        <div className="w-60 h-20 ml-12 flex flex-row mt-1">
-          <CircleUserRound className="text-white w-12 h-12 mt-3" />
-          <div className="flex flex-col mt-4 ml-2">
-            <p className="font-bold text-lg">Dylan Doe</p>
-            <p className="text-xs text-orange-400">Premium</p>
+        {/* CENTER - Search (takes all available space) */}
+        <div className="flex-1 flex justify-center px-4">
+          <div className="w-full max-w-md">
+            <SearchBar />
           </div>
-          <button
-            className="w-8 h-8  ml-3 mt-5"
-            onClick={() => userModalOpen(!userModal)}
-          >
-            <ChevronDown className="w-6 h-6 hover:text-gray-400" />
-          </button>
+        </div>
+
+        {/* RIGHT - Actions */}
+        <div className="flex items-center gap-4 shrink-0">
+          <Bell className="w-7 h-7 text-[#838D97] hover:text-white cursor-pointer" />
+
+          {/* User block */}
+          <div className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-[#0C1F2D] transition">
+            <CircleUserRound className="text-white w-10 h-10" />
+
+            <div className="flex flex-col leading-tight">
+              {user && (
+                <p className="font-bold text-sm whitespace-nowrap">
+                  {user.name}
+                </p>
+              )}
+              <p className="text-xs text-orange-400">Premium</p>
+            </div>
+
+            <button onClick={() => userModalOpen(!userModal)}>
+              <ChevronDown className="w-5 h-5 text-gray-400 hover:text-white" />
+            </button>
+          </div>
         </div>
       </header>
 

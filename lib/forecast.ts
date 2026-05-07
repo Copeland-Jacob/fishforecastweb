@@ -1,45 +1,67 @@
+import { text } from "stream/consumers";
+
+let weatherScore = 1;
+let windScore = 2;
+let pressureScore = 2;
+let cloudScore = 2;
+let tempScore = 2;
+
+export default function timeToNum(time: string) {
+  const split = time.split(" ");
+  const timeOnly = split[1];
+  const newTimeS = timeOnly.replace(":", "");
+  const newTime = Number(newTimeS);
+  return newTime;
+}
+
 export function calculateForecast(weather: any): number {
   // 1. Initial Baseline Score
   let score = 50;
-
   // 2. The Comfort Factor (Temperature & Heat Index)
   // We use feelslike_f because humidity/wind chill affects fish metabolism in shallow water.
-  const feelsLike = weather.feelslike_f;
-  if (feelsLike >= 60 && feelsLike <= 78) {
-    score += 20; // Prime metabolic range
-  } else if (feelsLike < 45 || feelsLike > 90) {
-    score -= 20; // Fish go deep and get lethargic
+  const temp = weather.temp_f;
+  if (temp >= 60 && temp <= 78) {
+    score += 10; // Prime metabolic range
+    tempScore = 3;
+    weatherScore++;
+  } else if (temp < 45 || temp > 90) {
+    score -= 10; // Fish go deep and get lethargic
+    tempScore = 1;
+  }
+
+  const time = timeToNum(weather.last_updated || weather.time);
+
+  if (time > 530 && time < 900) {
+    score += 20;
+  } else if (time >= 1830 && time < 2100) {
+    score += 20;
+  } else {
+    score -= 5;
   }
 
   // 3. The "Stealth" Factor (Wind & Visibility)
   // Wind creates surface chop which hides the fisherman.
   // High visibility (clear water/bright sun) makes fish spooky.
   const wind = weather.wind_mph;
-  const visibility = weather.vis_miles;
 
-  if (wind >= 5 && wind <= 15) {
-    score += 15; // Perfect chop
-  } else if (wind > 25) {
-    score -= 25; // Impossible to manage gear/boat
-  }
-
-  if (visibility < 5) {
-    score -= 10; // Often means heavy fog or murky conditions (harder for sight predators)
+  if (wind >= 5 && wind <= 10) {
+    score += 10; // Perfect chop
+    windScore = 3;
+    weatherScore++;
+  } else if (wind > 17) {
+    score -= 10;
+    windScore = 1;
   }
 
   // 4. Feeding Triggers (Clouds, UV, and Rain)
   // Low UV + High Cloud = Aggressive feeding.
-  if (weather.cloud > 70 || weather.uv < 3) {
-    score += 15;
+  if (weather.cloud > 70 && weather.uv <= 7) {
+    score += 10;
+    cloudScore = 3;
+    weatherScore++;
   } else if (weather.uv > 8) {
     score -= 10; // Harsh midday sun drives fish to deep cover
-  }
-
-  // Light rain (precip_in) oxygenates the surface.
-  if (weather.precip_in > 0 && weather.precip_in < 0.1) {
-    score += 15;
-  } else if (weather.precip_in > 0.3) {
-    score -= 15; // Heavy rain messes up water clarity (barbs/silt)
+    cloudScore = 1;
   }
 
   // 5. Pressure Stability
@@ -47,23 +69,32 @@ export function calculateForecast(weather: any): number {
   const pressure = weather.pressure_in;
   if (pressure >= 29.8 && pressure <= 30.2) {
     score += 10; // Stable high activity
+    pressureScore = 3;
   } else if (pressure < 29.6) {
     score += 5; // Low pressure often precedes a bite, but can be messy
-  }
-
-  // 6. Time of Day / Light Transition
-  // Golden hour (is_day transition) is huge.
-  // We simulate this by checking if it's night (is_day: 0)
-  if (weather.is_day === 0) {
-    score += 10; // Night fishing/Dawn/Dusk boost
-  }
-
-  // 7. Safety & Harsh Conditions Check (The "Dealbreaker" Penalty)
-  // If gusts are double the wind speed or UV is extreme, cap the potential.
-  if (weather.gust_mph > weather.wind_mph * 1.5) {
-    score -= 10;
+    pressureScore = 1;
   }
 
   // Final Clamp and Round
   return Math.round(Math.max(0, Math.min(100, score)));
+}
+
+export function calculateWindScore(weather: any): number {
+  return windScore;
+}
+
+export function calculateWeatherScore(weather: any): number {
+  return Math.round(Math.max(0, Math.min(3, weatherScore)));
+}
+
+export function calculateCloudScore(weather: any): number {
+  return cloudScore;
+}
+
+export function calculatePressureScore(weather: any): number {
+  return pressureScore;
+}
+
+export function calculateTempScore(weather: any): number {
+  return tempScore;
 }
