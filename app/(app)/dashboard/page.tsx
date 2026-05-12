@@ -455,7 +455,7 @@ export default function Dashboard() {
                     &lt;
                   </p>
                 </button>
-                <div className="w-27 text-center">
+                <div className="w-26 text-center">
                   <p
                     key={dayIndexCount}
                     className={`select-none inline-block transition-all duration-1000  ${
