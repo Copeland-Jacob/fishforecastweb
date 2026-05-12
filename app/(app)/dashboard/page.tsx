@@ -15,23 +15,39 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import LoadingWeather from "@/components/loadingWeather";
-import LocationCard from "@/components/LocationCard";
 import LocationBar from "@/components/LocationBar";
 import ScoreGraph from "@/components/ScoreGraph";
+import epochToDay from "@/lib/epochToDay";
 
 export default function Dashboard() {
   const [rating, setRating] = useState<any>(null);
   const [weather, setWeather] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState<any>(null);
+  const [direction, setDirection] = useState("next");
 
   const [windRating, setWindRating] = useState<any>(null);
   const [tempRating, setTempRating] = useState<any>(null);
   const [pressureRating, setPressureRating] = useState<any>(null);
   const [cloudRating, setCloudRating] = useState<any>(null);
   const [weatherRating, setWeatherRating] = useState<any>(null);
+  const [weatherIcon, setWeatherIcon] = useState<any>(null);
+  const [dayIndex, setDayIndex] = useState<any>([]);
+  const [dayIndexCount, setDayIndexCount] = useState(0);
 
   const location = useLocationStore((state) => state.location);
+
+  const increaseDayIndex = () => {
+    if (dayIndexCount === 2) return;
+    setDirection("next");
+    setDayIndexCount(dayIndexCount + 1);
+  };
+
+  const decreaseDayIndex = () => {
+    if (dayIndexCount === 0) return;
+    setDirection("prev");
+    setDayIndexCount(dayIndexCount - 1);
+  };
 
   useEffect(() => {
     if (!location) return;
@@ -43,6 +59,54 @@ export default function Dashboard() {
 
       const data = await res.json();
       setWeather(data.weather.current);
+      console.log(data);
+
+      const weatherText = data.weather.current.condition.text;
+
+      const thirdDay = epochToDay(data.weather.current.last_updated_epoch);
+      setDayIndex(["Today", "Tomorrow", thirdDay]);
+
+      if (data.weather.current.is_day === 1) {
+        if (weatherText === "Sunny") {
+          setWeatherIcon("/images/weather/day.svg");
+        } else if (weatherText.toLowerCase().includes("cloudy")) {
+          setWeatherIcon("/images/weather/cloudy-day.svg");
+        } else if (weatherText.toLowerCase().includes("overcast")) {
+          setWeatherIcon("/images/weather/cloudy.svg");
+        } else if (
+          weatherText.toLowerCase().includes("rain") ||
+          weatherText.toLowerCase().includes("drizzle")
+        ) {
+          setWeatherIcon("/images/weather/rainy.svg");
+        } else if (
+          weatherText.toLowerCase().includes("snow") ||
+          weatherText.toLowerCase().includes("blizzard") ||
+          weatherText.toLowerCase().includes("sleet")
+        ) {
+          setWeatherIcon("/images/weather/snowy.svg");
+        } else if (weatherText.toLowerCase().includes("thunder"))
+          setWeatherIcon("/images/weather/thunder.svg");
+      } else if (data.weather.current.is_day === 0) {
+        if (weatherText === "Sunny")
+          setWeatherIcon("/images/weather/night.svg");
+        else if (weatherText.toLowerCase().includes("cloudy")) {
+          setWeatherIcon("/images/weather/cloudy-night.svg");
+        } else if (weatherText.toLowerCase().includes("overcast")) {
+          setWeatherIcon("/images/weather/cloudy.svg");
+        } else if (
+          weatherText.toLowerCase().includes("rain") ||
+          weatherText.toLowerCase().includes("drizzle")
+        ) {
+          setWeatherIcon("/images/weather/rainy.svg");
+        } else if (
+          weatherText.toLowerCase().includes("snow") ||
+          weatherText.toLowerCase().includes("blizzard") ||
+          weatherText.toLowerCase().includes("sleet")
+        ) {
+          setWeatherIcon("/images/weather/snowy.svg");
+        } else if (weatherText.toLowerCase().includes("thunder"))
+          setWeatherIcon("/images/weather/thunder.svg");
+      }
     };
     getWeather();
 
@@ -376,8 +440,48 @@ export default function Dashboard() {
 
         {/* Score Graph */}
 
-        <div className="w-200 h-50 bg-[#102738] rounded-lg border-2 border-[#162A39]">
-          <ScoreGraph />
+        <div className="w-200 ml-3 h-50 bg-[#102738] rounded-lg border-2 border-[#162A39] relative flex flex-col">
+          <div className="flex flex-row justify-between px-3">
+            <p className="font-bold mt-1">Hourly Fishing Forecast</p>
+            {!loading && (
+              <div className="flex flex-row  mt-1 font-bold z-3">
+                <button
+                  onClick={decreaseDayIndex}
+                  className="hover:text-gray-300 group"
+                >
+                  <p
+                    className={`group-hover:text-gray-400 transition duration-200 ${dayIndexCount === 0 ? "text-gray-500 group-hover:text-gray-500" : "text-white"}`}
+                  >
+                    &lt;
+                  </p>
+                </button>
+                <div className="w-27 text-center">
+                  <p
+                    key={dayIndexCount}
+                    className={`select-none inline-block transition-all duration-1000  ${
+                      direction === "next"
+                        ? "animate-slide-right"
+                        : "animate-slide-left"
+                    }`}
+                  >
+                    {dayIndex[dayIndexCount]}
+                  </p>
+                </div>
+                <button onClick={increaseDayIndex} className="group ">
+                  <p
+                    className={`group-hover:text-gray-400 transition duration-200 ${dayIndexCount === 2 ? "text-gray-500 group-hover:text-gray-500" : "text-white"}`}
+                  >
+                    &gt;
+                  </p>
+                </button>
+              </div>
+            )}
+          </div>
+
+          <ScoreGraph
+            dayIndexCount={dayIndexCount}
+            setDayIndexCount={setDayIndexCount}
+          />
         </div>
 
         {/* Locations */}
@@ -391,26 +495,24 @@ export default function Dashboard() {
         {loading && <LoadingWeather />}
 
         {weather && (
-          <div className="w-103 h-60 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
+          <div className="w-103 h-60  bg-[#102738]  rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
             <p className="mt-3 ml-3 font-bold">Current Conditions</p>
-            <div className="flex flex-row">
-              <img
-                src="/images/cloud-sun.png"
-                className="w-25 h-25 ml-12 mt-3"
-              />
+            <div className="flex flex-row w-full justify-between px-10">
+              <img src={weatherIcon} className="w-25 h-25 mt-3" />
+              <div className="w-px h-25 bg-gray-600 mt-2" />
 
-              <div className="w-px h-25 bg-gray-600 mt-2 mx-auto" />
-
-              <div className="flex flex-col mr-10">
-                <p className="text-[50px] mt-2 mr-5 ml-3">
+              <div className="flex flex-col text-center">
+                <p className="text-[50px] mt-2">
                   {Math.round(weather.temp_f)}
                   <span className="text-xl">°F</span>
                 </p>
-                <p className="text-sm text-gray-400">Partly Cloudy</p>
+                <p className="text-sm text-gray-400 mx-auto">
+                  {weather.condition.text}
+                </p>
               </div>
             </div>
 
-            <div className="flex flex-row gap-5 mx-15 mt-5">
+            <div className="flex flex-row gap-5 mt-5 mx-15">
               <div>
                 <p>Feels Like</p>
                 <p>{Math.round(weather.feelslike_f)}°F</p>

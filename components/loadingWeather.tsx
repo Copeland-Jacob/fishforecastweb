@@ -3,7 +3,10 @@ export default function LoadingWeather() {
     <div className="w-103 h-60 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
       <p className="mt-3 ml-3 font-bold">Current Conditions</p>
       <div className="flex flex-row ">
-        <img src="/images/cloud-sun.png" className="w-25 h-25 ml-12 mt-3" />
+        <img
+          src="/images/weather/weather.svg"
+          className="w-25 h-25 ml-12 mt-3"
+        />
 
         <div className="w-px h-25 bg-gray-600 mt-2 mx-auto" />
 

@@ -56,24 +56,25 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
         {/* RIGHT - Actions */}
         <div className="flex items-center gap-4 shrink-0">
-          <Bell className="w-7 h-7 text-[#838D97] hover:text-white cursor-pointer" />
+          <Bell className="w-7 h-7 text-[#838D97] transition duration-200 hover:text-white cursor-pointer" />
 
           {/* User block */}
-          <div className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-[#0C1F2D] transition">
+          <div
+            className="flex group items-center gap-2 px-2 py-1 rounded-lg hover:bg-[#0C1F2D] transition duration-300"
+            onClick={() => userModalOpen(!userModal)}
+          >
             <CircleUserRound className="text-white w-10 h-10" />
 
             <div className="flex flex-col leading-tight">
               {user && (
-                <p className="font-bold text-sm whitespace-nowrap">
+                <p className="select-none font-bold text-sm whitespace-nowrap">
                   {user.name}
                 </p>
               )}
-              <p className="text-xs text-orange-400">Premium</p>
+              <p className="text-xs text-orange-400 select-none">Premium</p>
             </div>
 
-            <button onClick={() => userModalOpen(!userModal)}>
-              <ChevronDown className="w-5 h-5 text-gray-400 hover:text-white" />
-            </button>
+            <ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-white" />
           </div>
         </div>
       </header>

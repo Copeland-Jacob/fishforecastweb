@@ -20,7 +20,7 @@ export default function LocationCard({ location, onDelete }: Props) {
 
   return (
     <button
-      className="w-1/4 shrink-0 h-15 mt-px ml-1 bg-[#284B5A] hover:bg-[#22404d] rounded-xl relative text-left font-bold"
+      className="w-1/4 shrink-0 h-15 mt-px ml-1 bg-[#284B5A] hover:bg-[#22404d] rounded-xl relative text-left font-bold transition duration-200"
       onClick={() => setLocation(location)}
     >
       <div className="flex flex-row justify-between">
@@ -28,7 +28,7 @@ export default function LocationCard({ location, onDelete }: Props) {
           <p className="ml-2">{location.city}</p>
         </div>
         <Trash2
-          className="w-7 h-7 mr-1 my-auto text-gray-400 hover:text-red-500"
+          className="w-7 h-7 mr-1 my-auto text-gray-400 hover:text-red-500 transition duration-200"
           onClick={() => onDelete?.(location.id)}
         />
       </div>

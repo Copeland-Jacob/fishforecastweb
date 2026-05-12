@@ -112,7 +112,7 @@ export default function SearchBar() {
     <div className="relative w-full max-w-md">
       {/* INPUT */}
       <input
-        className="w-full h-12 px-4 rounded-xl bg-[#102733] text-white outline-none"
+        className="w-full h-12 px-4 rounded-xl bg-[#102733] hover:bg-[#132d3b] text-white outline-none trasnition duration-300"
         placeholder="Search lakes, cities..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
