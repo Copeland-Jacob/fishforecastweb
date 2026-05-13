@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
 import {
@@ -25,6 +26,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const [userModal, userModalOpen] = useState(false);
   const { openUserProfile } = useClerk();
   const [user, setUser] = useState<any>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const getUser = async () => {
@@ -33,6 +35,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       const data = await res.json();
 
       setUser(data);
+      console.log(data);
     };
     getUser();
   }, []);
@@ -63,7 +66,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             className="flex group items-center gap-2 px-2 py-1 rounded-lg hover:bg-[#0C1F2D] transition duration-300"
             onClick={() => userModalOpen(!userModal)}
           >
-            <CircleUserRound className="text-white w-10 h-10" />
+            {<CircleUserRound className="text-white w-10 h-10" />}
 
             <div className="flex flex-col leading-tight">
               {user && (
@@ -71,7 +74,13 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   {user.name}
                 </p>
               )}
-              <p className="text-xs text-orange-400 select-none">Premium</p>
+              {user?.is_premium == 1 && (
+                <p className="text-xs text-orange-400 select-none">Premium</p>
+              )}
+
+              {user?.is_premium == 0 && (
+                <p className="text-xs text-gray-300 select-none">Free</p>
+              )}
             </div>
 
             <ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-white" />
@@ -83,22 +92,28 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <div className="h-screen w-55 bg-[#051420] flex flex-col gap-6 pl-3 border-r-[1.5px] border-[#162A39]">
           <Link
             href="/"
-            className="group flex flex-row gap-3 mt-5 w-40 h-12 items-center pl-4 hover:bg-[#053543] rounded-lg transition-all duration-200 ease-out"
+            className={`group flex flex-row gap-3 mt-5 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${pathname === "/dashboard" ? "bg-[#053543]" : " hover:bg-[#053543]"}`}
           >
             <LayoutGrid
               fill="#838D97"
-              className="text-[#838D97] group-hover:text-[#15EEED] group-hover:fill-[#15EEED] transition-colors duration-200"
+              className={` group-hover:text-[#15EEED] group-hover:fill-[#15EEED] transition-colors duration-200 ${pathname === "/dashboard" ? "text-[#15EEED] fill-[#15EEED]" : "group-hover:text-[#15EEED] group-hover:fill-[#15EEED] text-[#838D97]"}`}
             />
-            <span className=" text-[#838D97] group-hover:text-white transition-colors duration-200">
+            <span
+              className={` text-[#838D97] transition-colors duration-200 ${pathname === "/dashboard" ? "text-white" : "group-hover:text-white"}`}
+            >
               Dashboard
             </span>
           </Link>
           <Link
-            href="/"
-            className="group flex flex-row gap-3 w-40 h-12 items-center pl-4 hover:bg-[#053543] rounded-lg transition-all duration-200 ease-out"
+            href="/map"
+            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${pathname === "/map" ? "bg-[#053543]" : " hover:bg-[#053543]"}`}
           >
-            <Map className="text-[#838D97] group-hover:text-[#15EEED] transition-colors duration-200" />
-            <span className="text-[#838D97] group-hover:text-white transition-colors duration-200">
+            <Map
+              className={` group-hover:text-[#15EEED] transition-colors duration-200 ${pathname === "/map" ? "text-[#15EEED]" : "group-hover:text-[#15EEED] text-[#838D97]"}`}
+            />
+            <span
+              className={` text-[#838D97] transition-colors duration-200 ${pathname === "/map" ? "text-white" : "group-hover:text-white"}`}
+            >
               Map
             </span>
           </Link>

@@ -18,8 +18,10 @@ import LoadingWeather from "@/components/loadingWeather";
 import LocationBar from "@/components/LocationBar";
 import ScoreGraph from "@/components/ScoreGraph";
 import epochToDay from "@/lib/epochToDay";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const router = useRouter();
   const [rating, setRating] = useState<any>(null);
   const [weather, setWeather] = useState<any>(null);
   const [loading, setLoading] = useState(true);
