@@ -16,7 +16,6 @@ export async function GET() {
     `,
     args: [user.id],
   });
-
   const userData = result.rows[0];
 
   return NextResponse.json(userData);
