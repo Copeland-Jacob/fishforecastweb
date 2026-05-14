@@ -33,7 +33,7 @@ export async function GET(req: Request) {
       );
       const time = numToTime(hour);
       scores.push({
-        score,
+        score: score.score,
         time,
         day,
       });

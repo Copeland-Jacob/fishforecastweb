@@ -18,21 +18,19 @@ import LoadingWeather from "@/components/loadingWeather";
 import LocationBar from "@/components/LocationBar";
 import ScoreGraph from "@/components/ScoreGraph";
 import epochToDay from "@/lib/epochToDay";
-import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
-  const router = useRouter();
   const [rating, setRating] = useState<any>(null);
   const [weather, setWeather] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState<any>(null);
   const [direction, setDirection] = useState("next");
 
-  const [windRating, setWindRating] = useState<any>(null);
-  const [tempRating, setTempRating] = useState<any>(null);
-  const [pressureRating, setPressureRating] = useState<any>(null);
-  const [cloudRating, setCloudRating] = useState<any>(null);
-  const [weatherRating, setWeatherRating] = useState<any>(null);
+  const [windRating, setWindRating] = useState<number>();
+  const [tempRating, setTempRating] = useState<number>();
+  const [pressureRating, setPressureRating] = useState<number>();
+  const [cloudRating, setCloudRating] = useState<number>();
+  const [weatherRating, setWeatherRating] = useState<number>();
   const [weatherIcon, setWeatherIcon] = useState<any>(null);
   const [dayIndex, setDayIndex] = useState<any>([]);
   const [dayIndexCount, setDayIndexCount] = useState(0);

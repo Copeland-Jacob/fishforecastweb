@@ -29,7 +29,10 @@ export default function LocationCard({ location, onDelete }: Props) {
         </div>
         <Trash2
           className="w-7 h-7 mr-1 my-auto text-gray-400 hover:text-red-500 transition duration-200"
-          onClick={() => onDelete?.(location.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete?.(location.id);
+          }}
         />
       </div>
     </button>

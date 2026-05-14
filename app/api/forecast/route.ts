@@ -1,12 +1,5 @@
 import { getWeather } from "@/lib/weather";
-import timeToNum, {
-  calculateCloudScore,
-  calculateForecast,
-  calculatePressureScore,
-  calculateTempScore,
-  calculateWeatherScore,
-  calculateWindScore,
-} from "@/lib/forecast";
+import timeToNum, { calculateForecast } from "@/lib/forecast";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -25,12 +18,13 @@ export async function GET(req: Request) {
 
   const weather = data.current;
 
-  const score = calculateForecast(weather);
-  const windScore = calculateWindScore(weather);
-  const tempScore = calculateTempScore(weather);
-  const pressureScore = calculatePressureScore(weather);
-  const cloudScore = calculateCloudScore(weather);
-  const weatherScore = calculateWeatherScore(weather);
+  const forecast = calculateForecast(weather);
+  const score = forecast.score;
+  const windScore = forecast.windScore;
+  const tempScore = forecast.tempScore;
+  const pressureScore = forecast.pressureScore;
+  const cloudScore = forecast.cloudScore;
+  const weatherScore = forecast.weatherScore;
   const time = timeToNum(weather.last_updated);
 
   return NextResponse.json({

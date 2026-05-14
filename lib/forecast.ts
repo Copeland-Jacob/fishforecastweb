@@ -1,11 +1,3 @@
-import { text } from "stream/consumers";
-
-let weatherScore = 1;
-let windScore = 2;
-let pressureScore = 2;
-let cloudScore = 2;
-let tempScore = 2;
-
 export default function timeToNum(time: string) {
   const split = time.split(" ");
   const timeOnly = split[1];
@@ -14,7 +6,13 @@ export default function timeToNum(time: string) {
   return newTime;
 }
 
-export function calculateForecast(weather: any): number {
+export function calculateForecast(weather: any) {
+  let weatherScore = 1;
+  let windScore = 2;
+  let pressureScore = 2;
+  let cloudScore = 2;
+  let tempScore = 2;
+
   // 1. Initial Baseline Score
   let score = 50;
   // 2. The Comfort Factor (Temperature & Heat Index)
@@ -43,6 +41,7 @@ export function calculateForecast(weather: any): number {
   // Wind creates surface chop which hides the fisherman.
   // High visibility (clear water/bright sun) makes fish spooky.
   const wind = weather.wind_mph;
+  console.log(wind);
 
   if (wind >= 5 && wind <= 10) {
     score += 10; // Perfect chop
@@ -52,6 +51,8 @@ export function calculateForecast(weather: any): number {
     score -= 10;
     windScore = 1;
   }
+
+  console.log(windScore);
 
   // 4. Feeding Triggers (Clouds, UV, and Rain)
   // Low UV + High Cloud = Aggressive feeding.
@@ -76,25 +77,12 @@ export function calculateForecast(weather: any): number {
   }
 
   // Final Clamp and Round
-  return Math.round(Math.max(0, Math.min(100, score)));
-}
-
-export function calculateWindScore(weather: any): number {
-  return windScore;
-}
-
-export function calculateWeatherScore(weather: any): number {
-  return Math.round(Math.max(0, Math.min(3, weatherScore)));
-}
-
-export function calculateCloudScore(weather: any): number {
-  return cloudScore;
-}
-
-export function calculatePressureScore(weather: any): number {
-  return pressureScore;
-}
-
-export function calculateTempScore(weather: any): number {
-  return tempScore;
+  return {
+    score: Math.round(Math.max(0, Math.min(100, score))),
+    windScore: windScore,
+    weatherScore: weatherScore,
+    tempScore: tempScore,
+    pressureScore: pressureScore,
+    cloudScore: cloudScore,
+  };
 }
