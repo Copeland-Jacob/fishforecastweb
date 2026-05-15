@@ -46,8 +46,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {/* LEFT - Logo */}
         <div className="flex items-center gap-2 shrink-0">
           <Fish className="w-7 h-7 text-[#15EEED]" />
-          <p className="font-bold text-2xl text-[#15EEED]">Fish</p>
-          <p className="font-bold text-2xl text-white">Forecast</p>
+          <div className="flex flex-row gap-px">
+            <p className="font-bold text-2xl text-[#15EEED]">Fish</p>
+            <p className="font-bold text-2xl text-white">Forecast</p>
+          </div>
         </div>
 
         {/* CENTER - Search (takes all available space) */}
