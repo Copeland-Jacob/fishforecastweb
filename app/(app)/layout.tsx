@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   CircleUserRound,
   Fish,
-  ChevronDown,
+  ChevronRight,
   Search,
   LayoutGrid,
   Map,
@@ -85,7 +85,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               )}
             </div>
 
-            <ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-white" />
+            <ChevronRight
+              className={`w-5 h-5 text-gray-400 group-hover:text-white ${userModal ? "rotate-90" : "rotate-0"} transition-all`}
+            />
           </div>
         </div>
       </header>
@@ -120,7 +122,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </span>
           </Link>
           <Link
-            href="/"
+            href="/ai-coach"
             className="group flex flex-row gap-3 w-40 h-12 items-center pl-4 hover:bg-[#053543] rounded-lg transition-all duration-200 ease-out"
           >
             <Bot className="text-[#838D97] group-hover:text-[#15EEED] transition-colors duration-200" />
