@@ -18,6 +18,7 @@ import LoadingWeather from "@/components/loadingWeather";
 import LocationBar from "@/components/LocationBar";
 import ScoreGraph from "@/components/ScoreGraph";
 import epochToDay from "@/lib/epochToDay";
+import SearchBar from "@/components/SearchBar";
 
 export default function Dashboard() {
   const [rating, setRating] = useState<any>(null);
@@ -154,6 +155,9 @@ export default function Dashboard() {
 
   return (
     <main className="w-[calc(100vw-55px)] h-[calc(100vw-20px)] bg-[#0C1F2D] flex flex-row">
+      <div className="absolute top-4 left-100 w-100">
+        <SearchBar />
+      </div>
       <div className="flex flex-col gap-2">
         <div className="flex flex-row w-200 h-90 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
           {/* Main Score */}

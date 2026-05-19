@@ -54,9 +54,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
         {/* CENTER - Search (takes all available space) */}
         <div className="flex-1 flex justify-center px-4">
-          <div className="w-full max-w-md">
-            <SearchBar />
-          </div>
+          <div className="w-full max-w-md"></div>
         </div>
 
         {/* RIGHT - Actions */}
@@ -123,28 +121,70 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </Link>
           <Link
             href="/ai-coach"
-            className="group flex flex-row gap-3 w-40 h-12 items-center pl-4 hover:bg-[#053543] rounded-lg transition-all duration-200 ease-out"
+            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+              pathname === "/ai-coach" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
           >
-            <Bot className="text-[#838D97] group-hover:text-[#15EEED] transition-colors duration-200" />
-            <span className="text-[#838D97] group-hover:text-white transition-colors duration-200">
+            <Bot
+              className={`transition-colors duration-200 ${
+                pathname === "/ai-coach"
+                  ? "text-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED]"
+              }`}
+            />
+            <span
+              className={`transition-colors duration-200 ${
+                pathname === "/ai-coach"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
               AI Coach
             </span>
           </Link>
           <Link
-            href="/"
-            className="group flex flex-row gap-3 w-40 h-12 items-center pl-4 hover:bg-[#053543] rounded-lg transition-all duration-200 ease-out"
+            href="/community"
+            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+              pathname === "/community" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
           >
-            <Users className="text-[#838D97] group-hover:text-[#15EEED] transition-colors duration-200" />
-            <span className=" text-[#838D97] group-hover:text-white transition-colors duration-200">
+            <Users
+              className={`transition-colors duration-200 ${
+                pathname === "/community"
+                  ? "text-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED]"
+              }`}
+            />
+            <span
+              className={`transition-colors duration-200 ${
+                pathname === "/community"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
               Community
             </span>
           </Link>
           <Link
-            href="/"
-            className="group flex flex-row gap-3 w-40 h-12 items-center pl-4 hover:bg-[#053543] rounded-lg transition-all duration-200 ease-out"
+            href="/messages"
+            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+              pathname === "/messages" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
           >
-            <MessageCircle className="text-[#838D97] group-hover:text-[#15EEED] transition-colors duration-200" />
-            <span className=" text-[#838D97] group-hover:text-white transition-colors duration-200">
+            <MessageCircle
+              className={`transition-colors duration-200 ${
+                pathname === "/messages"
+                  ? "text-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED]"
+              }`}
+            />
+            <span
+              className={`transition-colors duration-200 ${
+                pathname === "/messages"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
               Messages
             </span>
           </Link>
