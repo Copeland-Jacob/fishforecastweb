@@ -32,6 +32,7 @@ export default function Page() {
       <div className=" absolute bottom-3 ml-1 mr-1 w-[calc(100vw-150px)] flex flex-row gap-3">
         <input
           placeholder="Type your questions here!"
+          value={query}
           className="pl-3 w-[90%] h-12 rounded-xl bg-[#132d3b] hover:bg-[#193b4d] text-white outline-none trasnition duration-300"
           onChange={(e) => setQuery(e.target.value)}
         />
