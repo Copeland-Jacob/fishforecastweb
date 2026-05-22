@@ -93,7 +93,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <div className="flex flex-1 flex-row">
         <div className="h-screen w-55 bg-[#051420] flex flex-col gap-6 pl-3 border-r-[1.5px] border-[#162A39]">
           <Link
-            href="/"
+            href="/dashboard"
             className={`group flex flex-row gap-3 mt-5 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${pathname === "/dashboard" ? "bg-[#053543]" : " hover:bg-[#053543]"}`}
           >
             <LayoutGrid
