@@ -72,7 +72,7 @@ export default function Page() {
   };
 
   return (
-    <main className="lg:w-[calc(100vw-55px)] w-full h-[calc(100vh-20px)] bg-[#0C1F2D]">
+    <main className="w-full h-full bg-[#0C1F2D]">
       <Map
         initialViewState={{
           longitude: -95.388,
