@@ -156,7 +156,7 @@ export default function Dashboard() {
   return (
     <main className="w-full h-full bg-[#0C1F2D] flex flex-col lg:flex-row md:flex-col gap-2 lg:gap-4 overflow-y-auto pb-20 sm:pb-4">
       <div className="flex flex-col gap-2 lg:w-5/8 w-[97%]">
-        <div className="flex lg:flex-row flex-col w-full lg:gap-0 gap-5 lg:h-90 h-160 bg-[#102738] rounded-lg mt-3 ml-1.5 lg:ml-3 border-2 border-[#162A39]">
+        <div className="flex lg:flex-row flex-col w-full lg:gap-0 gap-1 lg:h-90 h-200 bg-[#102738] rounded-lg mt-3 ml-1.5 lg:ml-3 border-2 border-[#162A39]">
           {/* Main Score */}
 
           <div className="lg:w-1/2 w-full h-90">
@@ -300,7 +300,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="w-px h-75 bg-gray-600 my-auto" />
+          <div className="lg:w-px lg:h-75 w-0 h-0 bg-gray-600 my-auto" />
 
           <div className="lg:w-1/2 w-full h-90 flex flex-col items-center justify-center">
             <p className="text-gray-400 text-lg pb-2">Key Factors</p>

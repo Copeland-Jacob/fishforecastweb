@@ -80,7 +80,7 @@ export function calculateForecast(weather: any) {
   return {
     score: Math.round(Math.max(0, Math.min(100, score))),
     windScore: windScore,
-    weatherScore: weatherScore,
+    weatherScore: Math.round(Math.max(0, Math.min(3, weatherScore))),
     tempScore: tempScore,
     pressureScore: pressureScore,
     cloudScore: cloudScore,
