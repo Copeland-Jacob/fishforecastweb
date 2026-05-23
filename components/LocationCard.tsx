@@ -20,7 +20,7 @@ export default function LocationCard({ location, onDelete }: Props) {
 
   return (
     <button
-      className="w-1/4 shrink-0 h-15 mt-px ml-1 bg-[#284B5A] hover:bg-[#22404d] rounded-xl relative text-left font-bold transition duration-200"
+      className="w-50 shrink-0 h-15 mt-px ml-1 bg-[#284B5A] hover:bg-[#22404d] rounded-xl relative text-left font-bold transition duration-200"
       onClick={() => setLocation(location)}
     >
       <div className="flex flex-row justify-between">

@@ -47,7 +47,11 @@ export default function ScoreGraph({ dayIndexCount, setDayIndexCount }: Props) {
   }, [dayIndexCount, dayOneData, dayTwoData, dayThreeData]);
 
   return (
-    <ResponsiveContainer className="absolute top-3">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      className="absolute top-3 w-full h-full"
+    >
       <AreaChart
         className="w-[95%] h-[95%]"
         data={dataType}

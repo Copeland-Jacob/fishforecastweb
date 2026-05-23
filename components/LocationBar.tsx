@@ -32,7 +32,7 @@ export default function LocationBar() {
   }, []);
 
   return (
-    <div className="w-200 h-17 min-w-0 overflow-x-scroll flex-nowrap bg-[#102738] rounded-lg ml-3 border-2 border-[#162A39] flex flex-row gap-2">
+    <div className="w-full lg:h-1/8 h-1/11 min-w-0 overflow-x-scroll flex-nowrap bg-[#102738] rounded-lg ml-1.5 lg:ml-3 border-2 border-[#162A39] flex flex-row gap-2 items-center">
       {locations.map((loc) => (
         <LocationCard key={loc.id} location={loc} onDelete={handleDelete} />
       ))}

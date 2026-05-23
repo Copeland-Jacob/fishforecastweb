@@ -41,45 +41,55 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col h-screen overflow-hidden bg-[#051420]">
       <header className="w-full h-20 bg-[#051420] flex items-center border-b-[1.5px] border-[#162A39] px-4">
         {/* LEFT - Logo */}
         <div className="flex items-center gap-2 shrink-0">
           <Fish className="w-7 h-7 text-[#15EEED]" />
           <div className="flex flex-row gap-px">
-            <p className="font-bold text-2xl text-[#15EEED]">Fish</p>
-            <p className="font-bold text-2xl text-white">Forecast</p>
+            <p className="font-bold lg:text-2xl sm:text-2xl text-[0px] text-[#15EEED]">
+              Fish
+            </p>
+            <p className="font-bold lg:text-2xl sm:text-2xl text-[0px] text-white">
+              Forecast
+            </p>
           </div>
         </div>
 
         {/* CENTER - Search (takes all available space) */}
         <div className="flex-1 flex justify-center px-4">
-          <div className="w-full max-w-md"></div>
+          <div className="w-full max-w-100 min-w-10">
+            <SearchBar />
+          </div>
         </div>
 
         {/* RIGHT - Actions */}
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex items-center lg:gap-4 gap-5 shrink-0">
           <Bell className="w-7 h-7 text-[#838D97] transition duration-200 hover:text-white cursor-pointer" />
 
           {/* User block */}
           <div
-            className="flex group items-center gap-2 px-2 py-1 rounded-lg hover:bg-[#0C1F2D] transition duration-300"
+            className="flex group items-center lg:gap-2 gap-px px-2 py-1 rounded-lg hover:bg-[#0C1F2D] transition duration-300"
             onClick={() => userModalOpen(!userModal)}
           >
             {<CircleUserRound className="text-white w-10 h-10" />}
 
             <div className="flex flex-col leading-tight">
               {user && (
-                <p className="select-none font-bold text-sm whitespace-nowrap">
+                <p className="select-none font-bold lg:text-sm sm:text-sm text-[0px] whitespace-nowrap">
                   {user.name}
                 </p>
               )}
               {user?.is_premium == 1 && (
-                <p className="text-xs text-orange-400 select-none">Premium</p>
+                <p className="lg:text-xs sm:text-xs text-[0px] text-orange-400 select-none">
+                  Premium
+                </p>
               )}
 
               {user?.is_premium == 0 && (
-                <p className="text-xs text-gray-300 select-none">Free</p>
+                <p className="lg:text-xs sm:text-xs text-[0px] text-gray-300 select-none">
+                  Free
+                </p>
               )}
             </div>
 
@@ -90,10 +100,12 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <div className="flex flex-1 flex-row">
-        <div className="h-screen w-55 bg-[#051420] flex flex-col gap-6 pl-3 border-r-[1.5px] border-[#162A39]">
+      <div className="flex flex-1 flex-row overflow-hidden">
+        <div className="h-full lg:w-55 sm:w-55 w-0 bg-[#051420] flex flex-col gap-6 lg:pl-3 sm:pl-3 pl-0 lg:border-r-[1.5px] sm:border-r-[1.5px] border-r-0 border-[#162A39] overflow-hidden">
+          {" "}
           <Link
             href="/dashboard"
+            scroll={false}
             className={`group flex flex-row gap-3 mt-5 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${pathname === "/dashboard" ? "bg-[#053543]" : " hover:bg-[#053543]"}`}
           >
             <LayoutGrid
@@ -108,6 +120,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </Link>
           <Link
             href="/map"
+            scroll={false}
             className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${pathname === "/map" ? "bg-[#053543]" : " hover:bg-[#053543]"}`}
           >
             <Map
@@ -121,6 +134,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </Link>
           <Link
             href="/ai-coach"
+            scroll={false}
             className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
               pathname === "/ai-coach" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
@@ -144,6 +158,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </Link>
           <Link
             href="/community"
+            scroll={false}
             className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
               pathname === "/community" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
@@ -167,6 +182,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </Link>
           <Link
             href="/messages"
+            scroll={false}
             className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
               pathname === "/messages" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
@@ -190,7 +206,145 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </Link>
         </div>
 
-        {children}
+        <div className="flex-1 h-full overflow-hidden relative">{children}</div>
+        {/* MOBILE BOTTOM NAV */}
+        <div className="fixed bottom-0 left-0 right-0 h-16 bg-[#051420] border-t border-[#162A39] flex sm:hidden z-50">
+          {/* Dashboard */}
+          <Link
+            href="/dashboard"
+            scroll={false}
+            className={`group flex-1 flex flex-col items-center justify-center gap-1 transition-all ${
+              pathname === "/dashboard" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
+          >
+            <LayoutGrid
+              fill="#838D97"
+              className={`w-5 h-5 transition-colors duration-200 ${
+                pathname === "/dashboard"
+                  ? "text-[#15EEED] fill-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED] group-hover:fill-[#15EEED]"
+              }`}
+            />
+
+            <span
+              className={`text-[11px] transition-colors duration-200 ${
+                pathname === "/dashboard"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
+              Dashboard
+            </span>
+          </Link>
+
+          {/* Map */}
+          <Link
+            href="/map"
+            scroll={false}
+            className={`group flex-1 flex flex-col items-center justify-center gap-1 transition-all ${
+              pathname === "/map" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
+          >
+            <Map
+              className={`w-5 h-5 transition-colors duration-200 ${
+                pathname === "/map"
+                  ? "text-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED]"
+              }`}
+            />
+
+            <span
+              className={`text-[11px] transition-colors duration-200 ${
+                pathname === "/map"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
+              Map
+            </span>
+          </Link>
+
+          {/* AI Coach */}
+          <Link
+            href="/ai-coach"
+            scroll={false}
+            className={`group flex-1 flex flex-col items-center justify-center gap-1 transition-all ${
+              pathname === "/ai-coach" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
+          >
+            <Bot
+              className={`w-5 h-5 transition-colors duration-200 ${
+                pathname === "/ai-coach"
+                  ? "text-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED]"
+              }`}
+            />
+
+            <span
+              className={`text-[11px] transition-colors duration-200 ${
+                pathname === "/ai-coach"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
+              AI
+            </span>
+          </Link>
+
+          {/* Community */}
+          <Link
+            href="/community"
+            scroll={false}
+            className={`group flex-1 flex flex-col items-center justify-center gap-1 transition-all ${
+              pathname === "/community" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
+          >
+            <Users
+              className={`w-5 h-5 transition-colors duration-200 ${
+                pathname === "/community"
+                  ? "text-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED]"
+              }`}
+            />
+
+            <span
+              className={`text-[11px] transition-colors duration-200 ${
+                pathname === "/community"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
+              Community
+            </span>
+          </Link>
+
+          {/* Messages */}
+          <Link
+            href="/messages"
+            scroll={false}
+            className={`group flex-1 flex flex-col items-center justify-center gap-1 transition-all ${
+              pathname === "/messages" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            }`}
+          >
+            <MessageCircle
+              className={`w-5 h-5 transition-colors duration-200 ${
+                pathname === "/messages"
+                  ? "text-[#15EEED]"
+                  : "text-[#838D97] group-hover:text-[#15EEED]"
+              }`}
+            />
+
+            <span
+              className={`text-[11px] transition-colors duration-200 ${
+                pathname === "/messages"
+                  ? "text-white"
+                  : "text-[#838D97] group-hover:text-white"
+              }`}
+            >
+              Messages
+            </span>
+          </Link>
+        </div>
       </div>
 
       {userModal && (

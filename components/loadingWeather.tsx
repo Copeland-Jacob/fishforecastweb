@@ -1,6 +1,6 @@
 export default function LoadingWeather() {
   return (
-    <div className="w-103 h-60 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
+    <div className="w-full h-60 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
       <p className="mt-3 ml-3 font-bold">Current Conditions</p>
       <div className="flex flex-row ">
         <img

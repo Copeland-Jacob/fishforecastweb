@@ -28,8 +28,8 @@ export default function Page() {
   };
 
   return (
-    <main className="w-[calc(100vw-55px)] h-[calc(100vh-20px)] bg-[#0C1F2D] flex flex-row">
-      <div className=" absolute bottom-3 ml-1 mr-1 w-[calc(100vw-150px)] flex flex-row gap-3">
+    <main className="lg:w-[calc(100vw-55px)] w-full h-[calc(100vh-20px)] bg-[#0C1F2D] flex flex-row">
+      <div className=" absolute lg:bottom-3 ml-1 w-full flex flex-row gap-px sm:bottom-3 bottom-18 ">
         <input
           placeholder="Type your questions here!"
           value={query}
@@ -40,18 +40,19 @@ export default function Page() {
         {query !== "" && (
           <div
             onClick={handleSubmit}
-            className="w-12 h-12 rounded-full bg-[#224d64] hover:bg-[#316582] flex items-center group transition-all "
+            className="w-1/12 h-[calc(100vw-11/12)] rounded-full bg-[#224d64] hover:bg-[#316582] flex items-center group transition-all mx-auto"
           >
             <Send className="mx-auto" />
           </div>
         )}
         {query === "" && (
-          <div className="w-12 h-12 rounded-full bg-[#224d64] flex items-center group transition-all ">
+          <div className="w-1/12 h-[calc(100vw-11/12)] rounded-full bg-[#224d64] flex items-center group transition-all mx-auto">
             <Send className="mx-auto text-gray-400" />
           </div>
         )}
       </div>
-      <div className="flex flex-col overflow-y-scroll h-[82%]">
+
+      <div className="flex flex-col overflow-y-scroll lg:h-[82%] sm:h-[82%] h-[73%]">
         {messages.map((message: any, index: any) =>
           message.sender === "user" ? (
             <div key={index} className="flex justify-end mt-5 mx-5">

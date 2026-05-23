@@ -20,7 +20,7 @@ export default async function RootLayout({
       }}
     >
       <html lang="en" suppressHydrationWarning>
-        <body className="overflow-hidden">{children}</body>
+        <body className="h-screen overflow-hidden">{children}</body>
       </html>
     </ClerkProvider>
   );

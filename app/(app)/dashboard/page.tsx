@@ -154,15 +154,12 @@ export default function Dashboard() {
   }, [location]);
 
   return (
-    <main className="w-[calc(100vw-55px)] h-[calc(100vw-20px)] bg-[#0C1F2D] flex flex-row">
-      <div className="absolute top-4 left-100 w-100">
-        <SearchBar />
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-row w-200 h-90 bg-[#102738] rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
+    <main className="w-full h-full bg-[#0C1F2D] flex flex-col lg:flex-row md:flex-col gap-2 lg:gap-4 overflow-y-auto pb-20 sm:pb-4">
+      <div className="flex flex-col gap-2 lg:w-5/8 w-[97%]">
+        <div className="flex lg:flex-row flex-col w-full lg:gap-0 gap-5 lg:h-90 h-160 bg-[#102738] rounded-lg mt-3 ml-1.5 lg:ml-3 border-2 border-[#162A39]">
           {/* Main Score */}
 
-          <div className="w-1/2 h-90 ">
+          <div className="lg:w-1/2 w-full h-90">
             <p className="mt-2 font-bold ml-3">
               {location ? location.city : "Select a Location"}
             </p>
@@ -305,7 +302,7 @@ export default function Dashboard() {
 
           <div className="w-px h-75 bg-gray-600 my-auto" />
 
-          <div className="w-1/2 h-90 flex flex-col items-center justify-center">
+          <div className="lg:w-1/2 w-full h-90 flex flex-col items-center justify-center">
             <p className="text-gray-400 text-lg pb-2">Key Factors</p>
 
             {/* Weather */}
@@ -444,7 +441,7 @@ export default function Dashboard() {
 
         {/* Score Graph */}
 
-        <div className="w-200 ml-3 h-50 bg-[#102738] rounded-lg border-2 border-[#162A39] relative flex flex-col">
+        <div className="w-full ml-1.5 lg:ml-3 lg:h-6/22 sm:h-60 h-50 bg-[#102738] rounded-lg border-2 border-[#162A39] relative flex flex-col">
           <div className="flex flex-row justify-between px-3">
             <p className="font-bold mt-1">Hourly Fishing Forecast</p>
             {!loading && (
@@ -493,15 +490,17 @@ export default function Dashboard() {
         <LocationBar />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col lg:w-11/32 w-[97%] gap-2">
         {/* Weather */}
 
         {loading && <LoadingWeather />}
 
         {weather && (
-          <div className="w-103 h-60  bg-[#102738]  rounded-lg mt-3 ml-3 border-2 border-[#162A39]">
-            <p className="mt-3 ml-3 font-bold">Current Conditions</p>
-            <div className="flex flex-row w-full justify-between px-10">
+          <div className="w-full h-60  bg-[#102738]  rounded-lg mt-3 ml-1.5 lg:ml-3 border-2 border-[#162A39] flex flex-col items-center relative">
+            <p className="absolute top-3 left-3 font-bold">
+              Current Conditions
+            </p>
+            <div className="flex flex-row w-full justify-between lg:px-10 sm:px-20 px-25 mt-8">
               <img src={weatherIcon} className="w-25 h-25 mt-3" />
               <div className="w-px h-25 bg-gray-600 mt-2" />
 
@@ -516,7 +515,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="flex flex-row gap-5 mt-5 mx-15">
+            <div className="flex flex-row gap-5 mt-5 ">
               <div>
                 <p>Feels Like</p>
                 <p>{Math.round(weather.feelslike_f)}°F</p>
@@ -537,7 +536,7 @@ export default function Dashboard() {
 
         {/* Best Times */}
 
-        <div className="w-103 h-35 bg-[#102738] rounded-lg ml-3 border-2 border-[#162A39]">
+        <div className="w-full h-35 bg-[#102738] rounded-lg ml-1.5 lg:ml-3 border-2 border-[#162A39]">
           <p className="font-bold mt-3 ml-3">Best Times to Fish</p>
           <div className="flex flex-row gap-2  ml-3">
             <Crown className="text-yellow-600 fill-yellow-500 mt-2 w-8 h-8" />
@@ -559,7 +558,7 @@ export default function Dashboard() {
 
         {/* Upgrade to Premium */}
 
-        <div className="w-103 h-62 bg-[#102738] rounded-lg ml-3 border-2 border-[#162A39] relative">
+        <div className="w-full h-62 bg-[#102738] rounded-lg ml-1.5 lg:ml-3 border-2 border-[#162A39] lg:relative">
           <p className="text-2xl text-yellow-500 font-bold mt-2 ml-3">
             Upgrade to Premium
           </p>
@@ -582,10 +581,9 @@ export default function Dashboard() {
             <Check className="text-green-400" />
             <p>Ad-Free Experience</p>
           </div>
-        </div>
-
-        <div className="w-60 h-15 bg-[#0babb7] relative bottom-20 left-25 flex justify-center rounded-lg hover:bg-[#088a93] drop-shadow-[0_0_12px_rgba(21,238,237,0.35)]">
-          <p className="font-bold mt-4 text-xl">Upgrade Now!</p>
+          <div className="mx-auto mt-3 w-60 h-15 bg-[#0babb7] lg:relative lg:bottom-1 flex justify-center rounded-lg hover:bg-[#088a93] drop-shadow-[0_0_12px_rgba(21,238,237,0.35)]">
+            <p className="font-bold mt-4 text-xl">Upgrade Now!</p>
+          </div>
         </div>
       </div>
     </main>
