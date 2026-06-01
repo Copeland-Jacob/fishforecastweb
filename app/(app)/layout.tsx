@@ -189,17 +189,17 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </span>
           </Link>
 
-          {/* Community */}
+          {/* Catch Log */}
           <Link
-            href="/community"
+            href="/catch-log"
             scroll={false}
             className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
-              pathname === "/community" ? "bg-[#053543]" : "hover:bg-[#053543]"
+              pathname === "/catch-log" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
           >
             <Users
               className={`transition-colors duration-200 ${
-                pathname === "/community"
+                pathname === "/catch-log"
                   ? "text-[#15EEED]"
                   : "text-[#838D97] group-hover:text-[#15EEED]"
               }`}
@@ -207,12 +207,12 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
             <span
               className={`transition-colors duration-200 ${
-                pathname === "/community"
+                pathname === "/catch-log"
                   ? "text-white"
                   : "text-[#838D97] group-hover:text-white"
               }`}
             >
-              Community
+              Catch Log
             </span>
           </Link>
 
@@ -239,7 +239,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   : "text-[#838D97] group-hover:text-white"
               }`}
             >
-              Messages
+              Text
             </span>
           </Link>
         </div>
