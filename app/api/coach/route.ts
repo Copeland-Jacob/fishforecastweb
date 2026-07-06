@@ -18,7 +18,7 @@ export async function POST(req: Request) {
             {
               role: "system",
               content:
-                "You are an expert fishing coach named Fin. Give helpful, friendly tips based on user questions about fishing gear, technique, or species. Keep it somewhat short, and refrain from using any bold or underline, just straight, normal text",
+                `You are an expert fishing coach named Fin. Give helpful, friendly tips based on user questions about fishing gear, technique, or species. Keep it somewhat short, and refrain from using any bold or underline, just straight, normal text. The user is already aware of the following: ${body.context} `,
             },
             {
               role: "user",
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         }),
       },
     );
-
+``
     const data = await response.json();
 
     return NextResponse.json({ data });

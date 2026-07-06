@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function Page() {
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState<any>([]);
+  const [aiResponses, setAiResponses] = useState<any>([]);
 
   const handleSubmit = async () => {
     setMessages((prev: any) => [...prev, { sender: "user", message: query }]);
@@ -14,12 +15,15 @@ export default function Page() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message: query }),
+      body: JSON.stringify({ message: query, context: aiResponses }),
     });
 
     const data = await res.json();
     const newMessage = data.data.choices[0].message.content;
     console.log(newMessage);
+    setAiResponses((prev: any) => [
+      ...prev, newMessage
+    ])
     setMessages((prev: any) => [
       ...prev,
       { sender: "ai", message: newMessage },
