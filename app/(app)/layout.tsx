@@ -16,6 +16,7 @@ import {
   Settings,
   LogOut,
   Crown,
+  FishingHook
 } from "lucide-react";
 
 import SearchBar from "@/components/SearchBar";
@@ -39,7 +40,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="flex flex-col h-dvh overflow-hidden bg-[#051420]">
+    <div className="flex flex-col h-dvh overflow-hidden bg-[#051420] font-sans">
       {/* HEADER */}
       <header className="w-full h-20 shrink-0 bg-[#051420] flex items-center border-b-[1.5px] border-[#162A39] px-4">
         {/* LEFT */}
@@ -111,7 +112,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <Link
             href="/dashboard"
             scroll={false}
-            className={`group flex flex-row gap-3 mt-5 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+            className={`group flex flex-row gap-3 mt-5 w-45 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
               pathname === "/dashboard" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
           >
@@ -139,7 +140,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <Link
             href="/map"
             scroll={false}
-            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+            className={`group flex flex-row gap-3 w-45 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
               pathname === "/map" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
           >
@@ -166,7 +167,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <Link
             href="/ai-coach"
             scroll={false}
-            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+            className={`group flex flex-row gap-3 w-45 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
               pathname === "/ai-coach" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
           >
@@ -189,17 +190,16 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </span>
           </Link>
 
-          {/* Catch Log */}
           <Link
-            href="/catch-log"
+            href="/lure-suggestion"
             scroll={false}
-            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
-              pathname === "/catch-log" ? "bg-[#053543]" : "hover:bg-[#053543]"
+            className={`group flex flex-row gap-3 w-45 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+              pathname === "/lure-suggestion" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
           >
-            <Users
+            <FishingHook
               className={`transition-colors duration-200 ${
-                pathname === "/catch-log"
+                pathname === "/lure-suggestion"
                   ? "text-[#15EEED]"
                   : "text-[#838D97] group-hover:text-[#15EEED]"
               }`}
@@ -207,12 +207,12 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
             <span
               className={`transition-colors duration-200 ${
-                pathname === "/catch-log"
+                pathname === "/lure-suggestion"
                   ? "text-white"
                   : "text-[#838D97] group-hover:text-white"
               }`}
             >
-              Catch Log
+              Lure Suggestion
             </span>
           </Link>
 
@@ -220,7 +220,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <Link
             href="/messages"
             scroll={false}
-            className={`group flex flex-row gap-3 w-40 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
+            className={`group flex flex-row gap-3 w-45 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
               pathname === "/messages" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
           >
