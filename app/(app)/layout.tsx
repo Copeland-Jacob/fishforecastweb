@@ -16,7 +16,8 @@ import {
   Settings,
   LogOut,
   Crown,
-  FishingHook
+  FishingHook,
+  Camera
 } from "lucide-react";
 
 import SearchBar from "@/components/SearchBar";
@@ -216,17 +217,16 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </span>
           </Link>
 
-          {/* Messages */}
           <Link
-            href="/messages"
+            href="/fish-identifier"
             scroll={false}
             className={`group flex flex-row gap-3 w-45 h-12 items-center pl-4 rounded-lg transition-all duration-200 ease-out ${
-              pathname === "/messages" ? "bg-[#053543]" : "hover:bg-[#053543]"
+              pathname === "/fish-identifier" ? "bg-[#053543]" : "hover:bg-[#053543]"
             }`}
           >
-            <MessageCircle
+            <Camera
               className={`transition-colors duration-200 ${
-                pathname === "/messages"
+                pathname === "/fish-identifier"
                   ? "text-[#15EEED]"
                   : "text-[#838D97] group-hover:text-[#15EEED]"
               }`}
@@ -234,12 +234,12 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
             <span
               className={`transition-colors duration-200 ${
-                pathname === "/messages"
+                pathname === "/fish-identifier"
                   ? "text-white"
                   : "text-[#838D97] group-hover:text-white"
               }`}
             >
-              Text
+              Fish Identifier
             </span>
           </Link>
         </div>
